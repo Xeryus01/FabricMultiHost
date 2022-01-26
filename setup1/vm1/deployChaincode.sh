@@ -28,7 +28,7 @@ setGlobalsForPeer0Org1() {
 CHANNEL_NAME="mychannel"
 CC_RUNTIME_LANGUAGE=node
 VERSION="1"
-CC_SRC_PATH="./artifacts/src/pegawai/"
+CC_SRC_PATH="./../../artifacts/src/pegawai/"
 CC_NAME="pegawai"
 
 packageChaincode() {
