@@ -1,16 +1,6 @@
+# Script ini digunakan untuk men-generate artifact/file tambahan yang dibutuhkan dalam hyperledger network (genesis.block dan MSPanchors)
 
-chmod -R 0755 ./crypto-config
-# Delete existing artifacts
-rm -rf ./crypto-config
-rm genesis.block mychannel.tx
-rm -rf ../../channel-artifacts/*
-
-#Generate Crypto artifactes for organizations
-cryptogen generate --config=./crypto-config.yaml --output=./crypto-config/
-
-
-
-# System channel
+System channel
 SYS_CHANNEL="sys-channel"
 
 # channel name defaults to "mychannel"

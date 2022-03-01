@@ -1,6 +1,6 @@
 export CORE_PEER_TLS_ENABLED=true
-export ORDERER_CA=${PWD}/../vm4/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
-export PEER0_ORG3_CA=${PWD}/crypto-config/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
+export ORDERER_CA=${PWD}/../../artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+export PEER0_ORG3_CA=${PWD}/../../artifacts/channel/crypto-config/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
 export FABRIC_CFG_PATH=${PWD}/../../artifacts/channel/config/
 
 
@@ -11,26 +11,20 @@ export ORD_PORT=7050
 setGlobalsForPeer0Org3() {
     export CORE_PEER_LOCALMSPID="Org3MSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
-    export CORE_PEER_MSPCONFIGPATH=${PWD}/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/../../artifacts/channel/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
     export CORE_PEER_ADDRESS=localhost:11051
 
 }
 
-# presetup() {
-#     echo Vendoring Go dependencies ...
-#     pushd ./../../artifacts/src/github.com/fabcar/go
-#     GO111MODULE=on go mod vendor
-#     popd
-#     echo Finished vendoring Go dependencies
-# }
-# # presetup
-
 CHANNEL_NAME="mychannel"
+
+# CC_RUNTIME_LANGUAGE diset sebagai node karena peneliti memakai nodejs sebagai bahasa pemrogramannya
 CC_RUNTIME_LANGUAGE=node
 VERSION="1"
 CC_SRC_PATH="./../../artifacts/src/pegawai/"
 CC_NAME="pegawai"
 
+# Fungsi untuk compressing chaincode sehingga dapat diproses lebih lanjut
 packageChaincode() {
     rm -rf ${CC_NAME}.tar.gz
     setGlobalsForPeer0Org3
@@ -40,6 +34,7 @@ packageChaincode() {
     echo "===================== Chaincode is packaged on peer0.org3 ===================== "
 }
 
+# Fungsi untuk instalasi chaincode ke Peer0Org3
 installChaincode() {
     setGlobalsForPeer0Org3
     peer lifecycle chaincode install ${CC_NAME}.tar.gz
@@ -47,6 +42,7 @@ installChaincode() {
 
 }
 
+# Fungsi untuk melihat chaincode apa saja yang terinstall pada peer tertentu
 queryInstalled() {
     setGlobalsForPeer0Org3
     peer lifecycle chaincode queryinstalled >&log.txt
@@ -57,6 +53,7 @@ queryInstalled() {
     echo "===================== Query installed successful on peer0.org3 on channel ===================== "
 }
 
+# Fungsi untuk menyetujui chaincode pada Org2
 approveForMyOrg3() {
     setGlobalsForPeer0Org3
 
@@ -70,6 +67,7 @@ approveForMyOrg3() {
     echo "===================== chaincode approved from org 3 ===================== "
 }
 
+# Fungsi untuk mengecek kesiapan tiap peer anggota channel untuk penggunaan chaincode
 checkCommitReadyness() {
 
     setGlobalsForPeer0Org3
@@ -80,7 +78,7 @@ checkCommitReadyness() {
     echo "===================== checking commit readyness from org 3 ===================== "
 }
 
-# Run this function if you add any new dependency in chaincode
+# Eksekusi semua fungsi di atas
 packageChaincode
 installChaincode
 queryInstalled
