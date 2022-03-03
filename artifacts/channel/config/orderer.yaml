@@ -34,7 +34,7 @@ General:
         # ServerMinInterval is the minimum permitted time between client pings.
         # If clients send pings more frequently, the server will
         # disconnect them.
-        ServerMinInterval: 60s
+        ServerMinInterval: 10s
         # ServerInterval is the time between pings to clients.
         ServerInterval: 7200s
         # ServerTimeout is the duration the server waits for a response from
@@ -193,9 +193,9 @@ Kafka:
         # response, or a transmission. See Config.Net for more info:
         # https://godoc.org/github.com/Shopify/sarama#Config
         NetworkTimeouts:
-            DialTimeout: 10s
-            ReadTimeout: 10s
-            WriteTimeout: 10s
+            DialTimeout: 86400s
+            ReadTimeout: 86400s
+            WriteTimeout: 86400s
         # Affects the metadata requests when the Kafka cluster is in the middle
         # of a leader election.See Config.Metadata for more info:
         # https://godoc.org/github.com/Shopify/sarama#Config
